@@ -14,8 +14,3 @@ export const logout = () => {
   };
 };
 
-export const notification = (title, message, type) => {
-  return {
-
-  }
-}
