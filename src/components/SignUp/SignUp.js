@@ -4,7 +4,7 @@ import { loginSuccess } from "../actions";
 import styled from "styled-components";
 import FormHeader from "./FormHeader";
 import { Link } from "react-router-dom";
-import { signUp } from "../apis";
+import { signUp } from "../services";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import history from "../history";
@@ -23,10 +23,6 @@ const SignUp = props => {
 
     signUp(email, password, confirmPassword, name).then(response => {
       if (response.code === 200) {
-        setName("");
-        setPassword("");
-        setPasswordConfirm("");
-        setEmail("");
         toast.success("Account created successfully");
         setTimeout(() => {
           history.push("/sign-in");

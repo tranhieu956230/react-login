@@ -1,5 +1,5 @@
 import React from "react";
-import Header from "./Header";
+import Header from "./components/shared/Header";
 import styled from "styled-components";
 
 const Home = props => {

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { connect } from "react-redux";
-import { login } from "../apis";
-import { loginSuccess } from "../actions";
+import { login } from "services";
+import { loginSuccess } from "actions";
 import styled from "styled-components";
 import FormHeader from "./FormHeader";
 import { Link } from "react-router-dom";
