@@ -1,49 +1,78 @@
 import React, { useState } from "react";
-import { connect } from "react-redux";
-import { loginSuccess } from "../actions";
 import styled from "styled-components";
-import FormHeader from "./FormHeader";
 import { Link } from "react-router-dom";
-import { signUp } from "../services";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import history from "../history";
+
+import FormHeader from "components/shared/FormHeader";
+import { signUp } from "services";
+import InputValidate from "components/shared/InputValidate";
 
 const SignUp = props => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setPasswordConfirm] = useState("");
-  const [name, setName] = useState("");
+  const [username, setUsername] = useState("");
+  const [isValidUsername, setIsValidUsername] = useState(true);
   const [isValidEmail, setIsValidEmail] = useState(true);
   const [isValidPassword, setIsValidPassword] = useState(true);
   const [isValidPasswordConfirm, setIsValidPasswordConfirm] = useState(true);
 
   const handleSubmit = event => {
     event.preventDefault();
+    let valid = true;
 
-    signUp(email, password, confirmPassword, name).then(response => {
-      if (response.code === 200) {
-        toast.success("Account created successfully");
-        setTimeout(() => {
-          history.push("/sign-in");
-        }, 2000);
-      } else {
-        toast.error(response.message);
-      }
-    });
+    if (!username || !isValidUsername) {
+      setIsValidUsername(false);
+      valid = false;
+    }
+
+    if (!password || !isValidPassword) {
+      setIsValidPassword(false);
+      valid = false;
+    }
+
+    if (!email || !isValidEmail) {
+      setIsValidEmail(false);
+      valid = false;
+    }
+
+    if (!confirmPassword || !isValidPasswordConfirm) {
+      setIsValidPasswordConfirm(false);
+      valid = false;
+    }
+
+    if (valid) {
+      signUp(email, password, confirmPassword, username).then(response => {
+        if (response.code === 200) {
+          toast.success("Account created successfully");
+          props.history.push("/sign-in");
+        } else {
+          toast.error(response.message);
+        }
+      });
+    }
+  };
+
+  const handleUsernameChange = e => {
+    let regex = /^(?=.*\w)(?=.*\d)[\w\d]{6,}$/g;
+    setUsername(e.target.value);
+    setIsValidUsername(regex.test(e.target.value));
   };
 
   const handleEmailChange = e => {
+    let regex = /\w+@\w+\.\w+/g;
     setEmail(e.target.value);
-    setIsValidEmail(checkValidEmail(e.target.value));
+    setIsValidEmail(regex.test(e.target.value));
   };
 
   const handlePasswordChange = e => {
+    let regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[\w\d]{8,}$/g;
     setPassword(e.target.value);
-    setIsValidPassword(checkValidPassword(e.target.value));
+    setIsValidPassword(regex.test(e.target.value));
   };
 
-  const handlePasswordConfirmChange = e => {
+  const handleConfirmPasswordChange = e => {
     setPasswordConfirm(e.target.value);
     setIsValidPasswordConfirm(e.target.value === password);
   };
@@ -67,33 +96,41 @@ const SignUp = props => {
             title={"Create Free Account"}
             description={"Sign up using social networks"}
           />
-          <Input
-            placeholder={"Name"}
+          <InputValidate
+            placeholder={"Username"}
             type={"text"}
-            value={name}
-            onChange={e => setName(e.target.value)}
-            valid={true}
+            value={username}
+            onChange={handleUsernameChange}
+            errorMessage={
+              "Account must has at least 1 letter, 1 number and at least 6 characters in length"
+            }
+            valid={isValidUsername}
           />
-          <Input
+          <InputValidate
             placeholder={"Email"}
             type={"text"}
             value={email}
             onChange={handleEmailChange}
+            errorMessage={"Invalid email address"}
             valid={isValidEmail}
           />
-          <Input
+          <InputValidate
             placeholder={"Password"}
             type={"password"}
             value={password}
             onChange={handlePasswordChange}
+            errorMessage={
+              "Password must has 1 lowercase, 1 uppercase letter, 1 number and at least 8 characters in length"
+            }
             valid={isValidPassword}
           />
-          <Input
+          <InputValidate
             placeholder={"Confirm"}
             type={"password"}
             value={confirmPassword}
-            onChange={handlePasswordConfirmChange}
+            onChange={handleConfirmPasswordChange}
             valid={isValidPasswordConfirm}
+            errorMessage={"Password not match"}
           />
           <Button>Sign Up</Button>
         </FormWrapper>
@@ -101,40 +138,6 @@ const SignUp = props => {
     </Container>
   );
 };
-
-const checkValidEmail = email => {
-  let re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-  return re.test(String(email).toLowerCase());
-};
-
-const checkValidPassword = password => {
-  let re = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/g;
-  return re.test(password);
-};
-
-const Input = styled.input`
-  width: 100%;
-  height: 4.8rem;
-  background: #eef5f3;
-  border: none;
-  font-size: 1.4rem;
-  border-radius: 2rem;
-  color: #88908e;
-  padding: 0 1.6rem;
-  transition: background 0.3s;
-  margin-bottom: 2rem;
-
-  &::-webkit-input-placeholder {
-    font-weight: 700;
-    color: rgba(136, 144, 142, 0.8);
-  }
-
-  &:focus {
-    outline: none;
-    background: white;
-    border: 1px solid ${props => (props.valid ? "#e1eae7" : "red")};
-  }
-`;
 
 const Button = styled.button`
   background-color: #28b498;
@@ -225,13 +228,4 @@ const Main = styled.div`
   align-items: center;
 `;
 
-const mapStateToProps = state => {
-  return {
-    auth: state.auth
-  };
-};
-
-export default connect(
-  mapStateToProps,
-  { loginSuccess }
-)(SignUp);
+export default SignUp;

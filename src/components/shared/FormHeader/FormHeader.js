@@ -1,9 +1,10 @@
 import React from "react";
 import styled from "styled-components";
-import facebookImg from "../assets/facebook.svg";
-import googleImg from "../assets/google.svg";
-import linkedinImg from "../assets/linkedin.svg";
-import lineImg from "../assets/login_line.svg";
+
+import facebookImg from "assets/facebook.svg";
+import googleImg from "assets/google.svg";
+import linkedinImg from "assets/linkedin.svg";
+import lineImg from "assets/login_line.svg";
 
 const FormHeader = props => {
   return (

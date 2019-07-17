@@ -5,8 +5,8 @@ const delay = milliseconds => {
 };
 
 let userInfo = {
-  username: "",
-  password: "",
+  username: "test",
+  password: "test",
   name: ""
 };
 
@@ -28,6 +28,11 @@ export const login = async (username, password) => {
 
 export const signUp = async (email, password, confirmPassword, name) => {
   await delay(200);
+  if (!email || !password || !name || !confirmPassword)
+    return {
+      success: false,
+      message: "Field cannot be empty"
+    };
   if (password === confirmPassword) {
     userInfo.username = email;
     userInfo.password = password;
@@ -40,4 +45,30 @@ export const signUp = async (email, password, confirmPassword, name) => {
     success: false,
     message: "Password does not match."
   };
+};
+
+export const resetPassword = async email => {
+  await delay(200);
+  if (email) {
+    return {
+      success: true,
+      code: 200
+    };
+  }
+};
+
+export const changePassword = async (oldPassword, newPassword) => {
+  await delay(200);
+  if (oldPassword !== newPassword) {
+    userInfo.password = newPassword;
+    return {
+      success: true,
+      code: 200
+    };
+  } else {
+    return {
+      success: false,
+      message: "Your password must be different"
+    };
+  }
 };

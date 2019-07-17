@@ -1,11 +1,12 @@
 import React from "react";
-import Header from "./components/shared/Header";
 import styled from "styled-components";
+
+import Header from "components/shared/Header";
 
 const Home = props => {
   return (
     <div>
-      <Header />
+      <Header history={props.history}/>
       <Text>HomePage</Text>
     </div>
   );

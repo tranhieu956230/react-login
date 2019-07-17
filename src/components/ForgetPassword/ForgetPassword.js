@@ -2,34 +2,40 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import { toast } from "react-toastify";
 import { Link } from "react-router-dom";
-import { useGlobal } from "reactn";
 
-import { login } from "services";
+import { resetPassword } from "services";
 import FormHeader from "components/shared/FormHeader";
 import InputValidate from "components/shared/InputValidate";
 
-const Login = props => {
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
-  const [global, setGlobal] = useGlobal();
+const ForgetPassword = props => {
+  const [email, setEmail] = useState("");
+  const [isValidEmail, setIsValidEmail] = useState(true);
 
   const handleSubmit = event => {
     event.preventDefault();
-    login(username, password).then(response => {
-      if (response.code === 200) {
-        setUsername("");
-        setPassword("");
-        localStorage.setItem("access_token", response.access_token);
-        setGlobal({
-          accessToken: response.access_token,
-          isLoggedIn: true
-        });
-        props.history.push("/");
-        toast.success("Welcome back!");
-      } else {
-        toast.error(response.message);
-      }
-    });
+    let valid = true;
+
+    if (!email || !isValidEmail) {
+      valid = false;
+      setIsValidEmail(false);
+    }
+    if (valid) {
+      resetPassword(email).then(response => {
+        if (response.code === 200) {
+          setEmail("");
+          props.history.push("/");
+          toast.success("Password reset successful");
+        } else {
+          toast.error(response.message);
+        }
+      });
+    }
+  };
+
+  const handleEmailChange = e => {
+    let regex = /\w+@\w+\.\w+/g;
+    setEmail(e.target.value);
+    setIsValidEmail(regex.test(e.target.value));
   };
 
   return (
@@ -37,31 +43,18 @@ const Login = props => {
       <Main>
         <FormWrapper onSubmit={handleSubmit}>
           <FormHeader
-            title={"Login to Your Account"}
+            title={"Reset your password"}
             description={"Login using social networks"}
           />
           <InputValidate
             placeholder={"Email"}
             type={"text"}
-            onChange={e => setUsername(e.target.value)}
-            value={username}
-            valid={true}
+            onChange={handleEmailChange}
+            value={email}
+            errorMessage={"Invalid email address"}
+            valid={isValidEmail}
           />
-          <InputValidate
-            placeholder={"Password"}
-            type={"password"}
-            onChange={e => setPassword(e.target.value)}
-            valid={true}
-            value={password}
-          />
-
-          <TextPrimary>
-            <StyledLink to={"/forget-password"}>
-              Forget your password?
-            </StyledLink>
-          </TextPrimary>
-
-          <Button>Sign In</Button>
+          <Button>Submit</Button>
         </FormWrapper>
       </Main>
       <Aside>
@@ -78,28 +71,6 @@ const Login = props => {
     </Container>
   );
 };
-
-const StyledLink = styled(Link)`
-  &:link,
-  &:visited {
-    color: currentColor;
-    text-decoration: none;
-  }
-`;
-
-const TextPrimary = styled.h3`
-  font-size: 1.5rem;
-  color: #38ba8a;
-  justify-self: start;
-  margin-left: 1rem;
-  margin-top: -0.5rem;
-  margin-bottom: 0.5rem;
-  cursor: pointer;
-  transition: all 0.3s;
-  &:hover {
-    color: #3ba5b4;
-  }
-`;
 
 const Button = styled.button`
   background-color: #28b498;
@@ -190,4 +161,4 @@ const Main = styled.div`
   align-items: center;
 `;
 
-export default Login;
+export default ForgetPassword;
