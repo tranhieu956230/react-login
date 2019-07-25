@@ -3,9 +3,9 @@ import { Redirect } from "react-router-dom";
 import { useGlobal } from "reactn";
 
 const PublicRoute = props => {
-  const [global, setGlobal] = useGlobal();
+  const [isLoggedIn] = useGlobal("isLoggedIn");
 
-  if (global.isLoggedIn) return <Redirect to={"/"} />;
+  if (isLoggedIn) return <Redirect to={"/"} />;
   return props.children;
 };
 

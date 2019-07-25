@@ -2,7 +2,9 @@ import React, { useEffect } from "react";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
 import { ToastContainer, Bounce } from "react-toastify";
 import { createGlobalStyle } from "styled-components";
-import { setGlobal, useGlobal } from "reactn";
+import { setGlobal } from "reactn";
+
+import "react-toastify/dist/ReactToastify.css";
 
 import routes from "routes";
 import route from "components/Routes";
@@ -15,8 +17,6 @@ setGlobal({
 });
 
 const App = props => {
-  const [global, setGlobal] = useGlobal();
-
   useEffect(() => {
     let accessToken = localStorage.getItem("access_token");
     if (accessToken) {
@@ -28,14 +28,15 @@ const App = props => {
   });
 
   return (
-    <div>
+    <React.Fragment>
       <BrowserRouter>
         <GlobalStyle />
         <Switch>
-          {routes.map(route => (
+          {routes.map((route, index) => (
             <Route
               exact={route.exact}
               path={route.path}
+              key={index}
               render={props => {
                 if (route.isPrivate) {
                   return <PrivateRoute>{route.component(props)}</PrivateRoute>;
@@ -60,7 +61,7 @@ const App = props => {
           lineHeight: 2
         }}
       />
-    </div>
+    </React.Fragment>
   );
 };
 

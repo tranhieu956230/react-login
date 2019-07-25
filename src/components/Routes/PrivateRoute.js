@@ -3,9 +3,9 @@ import { Redirect } from "react-router-dom";
 import {useGlobal} from "reactn";
 
 const PrivateRoute = props => {
-  const [global, setGlobal] = useGlobal();
+  const [isLoggedIn] = useGlobal("isLoggedIn");
 
-  if (global.isLoggedIn) return props.children;
+  if (isLoggedIn) return props.children;
   return <Redirect to={"/sign-in"} />;
 };
 

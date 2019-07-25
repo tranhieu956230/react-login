@@ -1,12 +1,11 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
-import { toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 
 import FormHeader from "components/shared/FormHeader";
 import { signUp } from "services";
 import InputValidate from "components/shared/InputValidate";
+import validateUtil from "utils/validate.js";
 
 const SignUp = props => {
   const [email, setEmail] = useState("");
@@ -17,6 +16,7 @@ const SignUp = props => {
   const [isValidEmail, setIsValidEmail] = useState(true);
   const [isValidPassword, setIsValidPassword] = useState(true);
   const [isValidPasswordConfirm, setIsValidPasswordConfirm] = useState(true);
+  const [isRegisterRequest, setIsRegisterRequest] = useState(false);
 
   const handleSubmit = event => {
     event.preventDefault();
@@ -42,39 +42,43 @@ const SignUp = props => {
       valid = false;
     }
 
-    if (valid) {
+    if (valid && !isRegisterRequest) {
+      let t = setTimeout(() => {
+        setIsRegisterRequest(true);
+      }, 200);
+
       signUp(email, password, confirmPassword, username).then(response => {
-        if (response.code === 200) {
-          toast.success("Account created successfully");
+        clearTimeout(t);
+        setIsRegisterRequest(false);
+        if (response.code === "SUCCESS") {
           props.history.push("/sign-in");
-        } else {
-          toast.error(response.message);
         }
       });
     }
   };
 
   const handleUsernameChange = e => {
-    let regex = /^(?=.*\w)(?=.*\d)[\w\d]{6,}$/g;
-    setUsername(e.target.value);
-    setIsValidUsername(regex.test(e.target.value));
+    let username = e.target.value;
+    setUsername(username);
+    setIsValidUsername(validateUtil.isValidUsername(username));
   };
 
   const handleEmailChange = e => {
-    let regex = /\w+@\w+\.\w+/g;
-    setEmail(e.target.value);
-    setIsValidEmail(regex.test(e.target.value));
+    let email = e.target.value;
+    setEmail(email);
+    setIsValidEmail(validateUtil.isValidEmail(email));
   };
 
   const handlePasswordChange = e => {
-    let regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[\w\d]{8,}$/g;
-    setPassword(e.target.value);
-    setIsValidPassword(regex.test(e.target.value));
+    let password = e.target.value;
+    setPassword(password);
+    setIsValidPassword(validateUtil.isValidPassword(password));
   };
 
   const handleConfirmPasswordChange = e => {
-    setPasswordConfirm(e.target.value);
-    setIsValidPasswordConfirm(e.target.value === password);
+    let confirmPassword = e.target.value;
+    setPasswordConfirm(confirmPassword);
+    setIsValidPasswordConfirm(confirmPassword === password);
   };
 
   return (

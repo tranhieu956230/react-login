@@ -1,35 +1,42 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-import { toast } from "react-toastify";
 import { Link } from "react-router-dom";
-import { useGlobal } from "reactn";
+import { setGlobal } from "reactn";
 
 import { login } from "services";
 import FormHeader from "components/shared/FormHeader";
 import InputValidate from "components/shared/InputValidate";
+import PrimaryButton from "components/shared/PrimaryButton";
 
 const Login = props => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const [global, setGlobal] = useGlobal();
+  const [isLoginRequest, setIsLoginRequest] = useState(false);
 
   const handleSubmit = event => {
     event.preventDefault();
-    login(username, password).then(response => {
-      if (response.code === 200) {
-        setUsername("");
-        setPassword("");
-        localStorage.setItem("access_token", response.access_token);
-        setGlobal({
-          accessToken: response.access_token,
-          isLoggedIn: true
-        });
-        props.history.push("/");
-        toast.success("Welcome back!");
-      } else {
-        toast.error(response.message);
-      }
-    });
+    if (!isLoginRequest) {
+      let t = setTimeout(() => {
+        setIsLoginRequest(true);
+      }, 200);
+
+      login(username, password).then(response => {
+        clearTimeout(t);
+        setIsLoginRequest(false);
+
+        if (response.code === "SUCCESS") {
+          setUsername("");
+          setPassword("");
+          let result = response.result;
+          localStorage.setItem("access_token", result.access_token);
+          setGlobal({
+            accessToken: result.access_token,
+            isLoggedIn: true
+          });
+          props.history.push("/");
+        }
+      });
+    }
   };
 
   return (
@@ -61,7 +68,7 @@ const Login = props => {
             </StyledLink>
           </TextPrimary>
 
-          <Button>Sign In</Button>
+          <PrimaryButton isLoading={isLoginRequest} text={"Sign in"} />
         </FormWrapper>
       </Main>
       <Aside>
@@ -98,25 +105,6 @@ const TextPrimary = styled.h3`
   transition: all 0.3s;
   &:hover {
     color: #3ba5b4;
-  }
-`;
-
-const Button = styled.button`
-  background-color: #28b498;
-  border-radius: 3rem;
-  outline: none;
-  border: none;
-  cursor: pointer;
-  color: white;
-  line-height: 1.6;
-  transition: all 0.3s;
-  width: 20rem;
-  height: 5rem;
-  font-size: 1.4rem;
-  font-weight: 600;
-
-  &:hover {
-    background-color: #3cc6a5;
   }
 `;
 

@@ -1,11 +1,12 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-import { toast } from "react-toastify";
-import { useGlobal } from "reactn";
+import { setGlobal, useGlobal } from "reactn";
 
 import Header from "components/shared/Header";
 import { changePassword } from "services";
 import InputValidate from "components/shared/InputValidate";
+import validateUtil from "utils/validate.js";
+import PrimaryButton from "components/shared/PrimaryButton";
 
 const ChangePassword = props => {
   const [newPassword, setNewPassword] = useState("");
@@ -16,7 +17,8 @@ const ChangePassword = props => {
   const [isValidNewPasswordConfirm, setIsValidNewPasswordConfirm] = useState(
     true
   );
-  const [global, setGlobal] = useGlobal();
+  const [isChangePasswordRequest, setIsChangePasswordRequest] = useState(false);
+  const [accessToken] = useGlobal("accessToken");
 
   const handleSubmit = e => {
     e.preventDefault();
@@ -37,36 +39,41 @@ const ChangePassword = props => {
       setIsValidOldPassword(false);
     }
 
-    if (valid) {
-      changePassword(oldPassword, newPassword).then(response => {
-        if (response.code === 200) {
+    if (valid && !isChangePasswordRequest) {
+      let t = setTimeout(() => {
+        setIsChangePasswordRequest(true);
+      }, 200);
+
+      changePassword(
+        oldPassword,
+        newPassword,
+        newPasswordConfirm,
+        accessToken
+      ).then(response => {
+        clearTimeout(t);
+        setIsChangePasswordRequest(false);
+        if (response.code in ["SUCCESS", "UNAUTHORIZED"]) {
           setGlobal({
             isLoggedIn: false,
             access_token: ""
           });
           localStorage.removeItem("access_token");
           props.history.push("/");
-          toast.success("Your password has been changed. Please log in again.");
-        } else {
-          toast.error(response.message);
         }
       });
     }
   };
 
-  const isValidPassword = password => {
-    let regex = /^(?=.*\w)(?=.*\d)[\w\d]{6,}$/g;
-    return regex.test(password);
-  };
-
   const handleOldPasswordChange = e => {
-    setOldPassword(e.target.value);
-    setIsValidOldPassword(isValidPassword(e.target.value));
+    let oldPassword = e.target.value;
+    setOldPassword(oldPassword);
+    setIsValidOldPassword(validateUtil.isValidPassword(oldPassword));
   };
 
   const handleNewPasswordChange = e => {
-    setNewPassword(e.target.value);
-    setIsValidNewPassword(isValidPassword(e.target.value));
+    let newPassword = e.target.value;
+    setNewPassword(newPassword);
+    setIsValidNewPassword(validateUtil.isValidPassword(newPassword));
   };
 
   const handleNewPasswordConfirmChange = e => {
@@ -82,7 +89,7 @@ const ChangePassword = props => {
         <FormWrapper onSubmit={handleSubmit}>
           <InputValidate
             placeholder={"Old Password"}
-            type={"text"}
+            type={"password"}
             onChange={handleOldPasswordChange}
             value={oldPassword}
             errorMessage={
@@ -108,7 +115,7 @@ const ChangePassword = props => {
             errorMessage={"Password not match"}
             valid={isValidNewPasswordConfirm}
           />
-          <Button>Submit</Button>
+          <PrimaryButton isLoading={isChangePasswordRequest} text={"Submit"} />
         </FormWrapper>
       </Main>
     </div>
@@ -122,25 +129,6 @@ const Text = styled.h1`
   margin-top: 2rem;
   color: rgba(41, 41, 41, 0.82);
   margin-bottom: 2rem;
-`;
-
-const Button = styled.button`
-  background-color: #28b498;
-  border-radius: 3rem;
-  outline: none;
-  border: none;
-  cursor: pointer;
-  color: white;
-  line-height: 1.6;
-  transition: all 0.3s;
-  width: 15rem;
-  height: 5rem;
-  font-size: 1.4rem;
-  font-weight: 600;
-
-  &:hover {
-    background-color: #3cc6a5;
-  }
 `;
 
 const FormWrapper = styled.form`

@@ -1,15 +1,17 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-import { toast } from "react-toastify";
 import { Link } from "react-router-dom";
 
 import { resetPassword } from "services";
 import FormHeader from "components/shared/FormHeader";
 import InputValidate from "components/shared/InputValidate";
+import validateUtil from "utils/validate.js";
+import PrimaryButton from "components/shared/PrimaryButton";
 
 const ForgetPassword = props => {
   const [email, setEmail] = useState("");
   const [isValidEmail, setIsValidEmail] = useState(true);
+  const [isForgetPassword, setIsForgetPasswordRequest] = useState(false);
 
   const handleSubmit = event => {
     event.preventDefault();
@@ -19,23 +21,24 @@ const ForgetPassword = props => {
       valid = false;
       setIsValidEmail(false);
     }
-    if (valid) {
+    if (valid && !isForgetPassword) {
+      let t = setTimeout(() => {
+        setIsForgetPasswordRequest(true);
+      }, 200);
       resetPassword(email).then(response => {
-        if (response.code === 200) {
+        clearTimeout(t);
+        setIsForgetPasswordRequest(false);
+        if (response.code === "SUCCESS") {
           setEmail("");
-          props.history.push("/");
-          toast.success("Password reset successful");
-        } else {
-          toast.error(response.message);
+          props.history.push("/sign-in");
         }
       });
     }
   };
 
   const handleEmailChange = e => {
-    let regex = /\w+@\w+\.\w+/g;
     setEmail(e.target.value);
-    setIsValidEmail(regex.test(e.target.value));
+    setIsValidEmail(validateUtil.isValidEmail(e.target.value));
   };
 
   return (
@@ -54,7 +57,7 @@ const ForgetPassword = props => {
             errorMessage={"Invalid email address"}
             valid={isValidEmail}
           />
-          <Button>Submit</Button>
+          <PrimaryButton text={"Register"} isLoading={isForgetPassword} />
         </FormWrapper>
       </Main>
       <Aside>
@@ -71,25 +74,6 @@ const ForgetPassword = props => {
     </Container>
   );
 };
-
-const Button = styled.button`
-  background-color: #28b498;
-  border-radius: 3rem;
-  outline: none;
-  border: none;
-  cursor: pointer;
-  color: white;
-  line-height: 1.6;
-  transition: all 0.3s;
-  width: 20rem;
-  height: 5rem;
-  font-size: 1.4rem;
-  font-weight: 600;
-
-  &:hover {
-    background-color: #3cc6a5;
-  }
-`;
 
 const FormWrapper = styled.form`
   max-width: 55rem;

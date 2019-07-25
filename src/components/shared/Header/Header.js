@@ -1,11 +1,10 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-import { useGlobal } from "reactn";
+import { setGlobal } from "reactn";
 
 import { Link } from "react-router-dom";
 
 const Header = props => {
-  const [global, setGlobal] = useGlobal();
   const [isSettingVisible, setIsSettingVisible] = useState(false);
 
   return (
@@ -36,8 +35,11 @@ const Header = props => {
 
 const StyledLink = styled(Link)`
   width: 100%;
-  text-decoration: none;
-  color: currentColor;
+
+  &:link {
+    color: currentColor;
+    text-decoration: none;
+  }
 `;
 
 const DropDown = styled.ul`
@@ -56,7 +58,7 @@ const DropDown = styled.ul`
 
 const DropDownItem = styled.li`
   padding: 1.5rem 2rem;
-  color: rgba(0,0,0,0.9);
+  color: rgba(0, 0, 0, 0.9);
   cursor: pointer;
   transition: all 0.3s;
   &:not(:last-child) {

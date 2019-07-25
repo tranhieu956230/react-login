@@ -1,74 +1,109 @@
-const delay = milliseconds => {
-  return new Promise(resolve => {
-    setTimeout(() => resolve(), milliseconds);
-  });
+import axios from "axios";
+import { toast } from "react-toastify";
+
+const API_ENDPOINT = "http://localhost:5000/api/v1";
+
+const request = axios.create({
+  baseURL: API_ENDPOINT
+});
+
+export const login = async (account, password) => {
+  return request({
+    method: "POST",
+    url: "/auth/login",
+    data: {
+      account,
+      password
+    }
+  })
+    .then(response => handleResponse(response.data))
+    .catch(err => handleError(err.message));
 };
 
-let userInfo = {
-  username: "test",
-  password: "test",
-  name: ""
+export const signUp = async (email, password, confirmPassword, username) => {
+  return request({
+    method: "POST",
+    url: "/user",
+    data: {
+      email,
+      password,
+      username,
+      confirmPassword
+    }
+  })
+    .then(response => handleResponse(response.data))
+    .catch(err => handleError(err.message));
 };
 
-export const login = async (username, password) => {
-  await delay(200);
-  if (username === userInfo.username && password === userInfo.password) {
-    return {
-      success: true,
-      access_token: "ACCESS_TOKEN",
-      code: 200
-    };
-  }
-  return {
-    success: false,
-    message: "Invalid username or password.",
-    code: 400
-  };
+export const resetPassword = async account => {
+  return request({
+    method: "POST",
+    url: "/auth/forget-password",
+    data: {
+      account
+    }
+  })
+    .then(response => handleResponse(response.data))
+    .catch(err => handleError(err.message));
 };
 
-export const signUp = async (email, password, confirmPassword, name) => {
-  await delay(200);
-  if (!email || !password || !name || !confirmPassword)
-    return {
-      success: false,
-      message: "Field cannot be empty"
-    };
-  if (password === confirmPassword) {
-    userInfo.username = email;
-    userInfo.password = password;
-    return {
-      success: true,
-      code: 200
-    };
-  }
-  return {
-    success: false,
-    message: "Password does not match."
-  };
+export const changePassword = async (
+  old_password,
+  new_password,
+  password_confirm,
+  access_token
+) => {
+  return request({
+    method: "PUT",
+    url: "/user/password",
+    headers: {
+      Authorization: `Bearer ${access_token}`
+    },
+    data: {
+      old_password,
+      new_password,
+      password_confirm
+    }
+  })
+    .then(response => handleResponse(response.data))
+    .catch(err => handleError(err.message));
 };
 
-export const resetPassword = async email => {
-  await delay(200);
-  if (email) {
-    return {
-      success: true,
-      code: 200
-    };
-  }
+export const getUserInfo = async access_token => {
+  return request({
+    method: "GET",
+    url: "/user",
+    headers: {
+      Authorization: `Bearer ${access_token}`
+    }
+  })
+    .then(response => handleResponse(response.data))
+    .catch(err => handleError(err.message));
 };
 
-export const changePassword = async (oldPassword, newPassword) => {
-  await delay(200);
-  if (oldPassword !== newPassword) {
-    userInfo.password = newPassword;
-    return {
-      success: true,
-      code: 200
-    };
+export const activateAccount = async code => {
+  return request({
+    method: "GET",
+    url: `/auth/verify-email/${code}`
+  })
+    .then(response => handleResponse(response.data))
+    .catch(err => handleError(err.message));
+};
+
+function handleResponse(response) {
+  if (response.code === "SUCCESS") {
+    if (response.message) toast.success(response.message);
+  } else if (response.code === "UNAUTHORIZED") {
+    toast.error(response.message);
   } else {
-    return {
-      success: false,
-      message: "Your password must be different"
-    };
+    toast.error(response.message);
   }
-};
+  return response;
+}
+
+function handleError(errMessage) {
+  toast.error(errMessage);
+  return {
+    code: "NETWORK_ERROR"
+  };
+}
