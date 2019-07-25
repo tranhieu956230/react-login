@@ -1,7 +1,7 @@
 import axios from "axios";
 import { toast } from "react-toastify";
 
-const API_ENDPOINT = "http://localhost:5000/api/v1";
+const API_ENDPOINT = `${process.env.REACT_APP_DOMAIN_NAME}/api/v1`;
 
 const request = axios.create({
   baseURL: API_ENDPOINT

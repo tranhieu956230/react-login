@@ -3,7 +3,6 @@ import { BrowserRouter, Route, Switch } from "react-router-dom";
 import { ToastContainer, Bounce } from "react-toastify";
 import { createGlobalStyle } from "styled-components";
 import { setGlobal } from "reactn";
-
 import "react-toastify/dist/ReactToastify.css";
 
 import routes from "routes";
@@ -26,6 +25,7 @@ const App = props => {
       });
     }
   });
+
 
   return (
     <React.Fragment>
