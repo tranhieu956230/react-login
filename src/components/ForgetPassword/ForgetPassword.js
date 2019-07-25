@@ -57,7 +57,7 @@ const ForgetPassword = props => {
             errorMessage={"Invalid email address"}
             valid={isValidEmail}
           />
-          <PrimaryButton text={"Register"} isLoading={isForgetPassword} />
+          <PrimaryButton text={"Submit"} isLoading={isForgetPassword} />
         </FormWrapper>
       </Main>
       <Aside>
