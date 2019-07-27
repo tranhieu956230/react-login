@@ -5,7 +5,6 @@ import { Link } from "react-router-dom";
 import { resetPassword } from "services";
 import FormHeader from "components/shared/FormHeader";
 import InputValidate from "components/shared/InputValidate";
-import validateUtil from "utils/validate.js";
 import PrimaryButton from "components/shared/PrimaryButton";
 
 const ForgetPassword = props => {
@@ -38,7 +37,7 @@ const ForgetPassword = props => {
 
   const handleEmailChange = e => {
     setEmail(e.target.value);
-    setIsValidEmail(validateUtil.isValidEmail(e.target.value));
+    setIsValidEmail(email !== "");
   };
 
   return (
@@ -50,11 +49,11 @@ const ForgetPassword = props => {
             description={"Login using social networks"}
           />
           <InputValidate
-            placeholder={"Email"}
+            placeholder={"Username or email"}
             type={"text"}
             onChange={handleEmailChange}
             value={email}
-            errorMessage={"Invalid email address"}
+            errorMessage={"Field cannot be empty"}
             valid={isValidEmail}
           />
           <PrimaryButton text={"Submit"} isLoading={isForgetPassword} />

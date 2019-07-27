@@ -11,12 +11,25 @@ import PrimaryButton from "components/shared/PrimaryButton";
 const Login = props => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [isValidUsername, setIsValidUsername] = useState(true);
+  const [isValidPassword, setIsValidPassword] = useState(true);
   const [isLoginRequest, setIsLoginRequest] = useState(false);
-
 
   const handleSubmit = event => {
     event.preventDefault();
-    if (!isLoginRequest) {
+    let valid = true;
+
+    if (!username || !isValidUsername) {
+      setIsValidUsername(false);
+      valid = false;
+    }
+
+    if (!password || !isValidPassword) {
+      setIsValidPassword(false);
+      valid = false;
+    }
+
+    if (!isLoginRequest && valid) {
       let t = setTimeout(() => {
         setIsLoginRequest(true);
       }, 200);
@@ -40,6 +53,18 @@ const Login = props => {
     }
   };
 
+  const handleUsernameChange = e => {
+    let value = e.target.value;
+    setUsername(value);
+    setIsValidUsername(value !== "");
+  };
+
+  const handlePasswordChange = e => {
+    let value = e.target.value;
+    setPassword(value);
+    setIsValidPassword(value !== "");
+  };
+
   return (
     <Container>
       <Main>
@@ -49,17 +74,19 @@ const Login = props => {
             description={"Login using social networks"}
           />
           <InputValidate
-            placeholder={"Email"}
+            placeholder={"Username or email"}
             type={"text"}
-            onChange={e => setUsername(e.target.value)}
+            onChange={handleUsernameChange}
             value={username}
-            valid={true}
+            errorMessage={"Field cannot be empty"}
+            valid={isValidUsername}
           />
           <InputValidate
             placeholder={"Password"}
             type={"password"}
-            onChange={e => setPassword(e.target.value)}
-            valid={true}
+            onChange={handlePasswordChange}
+            valid={isValidPassword}
+            errorMessage={"Field cannot be empty"}
             value={password}
           />
 

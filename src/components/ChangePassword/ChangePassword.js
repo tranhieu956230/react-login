@@ -52,13 +52,13 @@ const ChangePassword = props => {
       ).then(response => {
         clearTimeout(t);
         setIsChangePasswordRequest(false);
-        if (response.code in ["SUCCESS", "UNAUTHORIZED"]) {
+        if (response.code === "SUCCESS" || response.code === "UNAUTHORIZED") {
           setGlobal({
             isLoggedIn: false,
-            access_token: ""
+            accessToken: ""
           });
           localStorage.removeItem("access_token");
-          props.history.push("/");
+          props.history.push("/sign-in");
         }
       });
     }
