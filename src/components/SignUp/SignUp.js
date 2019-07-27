@@ -6,6 +6,7 @@ import FormHeader from "components/shared/FormHeader";
 import { signUp } from "services";
 import InputValidate from "components/shared/InputValidate";
 import validateUtil from "utils/validate.js";
+import PrimaryButton from "components/shared/PrimaryButton";
 
 const SignUp = props => {
   const [email, setEmail] = useState("");
@@ -73,6 +74,7 @@ const SignUp = props => {
     let password = e.target.value;
     setPassword(password);
     setIsValidPassword(validateUtil.isValidPassword(password));
+    setIsValidPasswordConfirm(confirmPassword === password);
   };
 
   const handleConfirmPasswordChange = e => {
@@ -136,31 +138,12 @@ const SignUp = props => {
             valid={isValidPasswordConfirm}
             errorMessage={"Password not match"}
           />
-          <Button>Sign Up</Button>
+          <PrimaryButton isLoading={isRegisterRequest} text={"Sign Up"} />
         </FormWrapper>
       </Main>
     </Container>
   );
 };
-
-const Button = styled.button`
-  background-color: #28b498;
-  border-radius: 3rem;
-  outline: none;
-  border: none;
-  cursor: pointer;
-  color: white;
-  line-height: 1.6;
-  transition: all 0.3s;
-  width: 20rem;
-  height: 5rem;
-  font-size: 1.4rem;
-  font-weight: 600;
-
-  &:hover {
-    background-color: #3cc6a5;
-  }
-`;
 
 const FormWrapper = styled.form`
   max-width: 55rem;
