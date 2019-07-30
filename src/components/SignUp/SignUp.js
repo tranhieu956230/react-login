@@ -84,7 +84,7 @@ const SignUp = props => {
   };
 
   return (
-    <Container>
+    <Container data-test={"container"}>
       <Aside>
         <Title>One Of Us?</Title>
         <TextWrapper>

@@ -25,7 +25,7 @@ const Home = props => {
   });
 
   return (
-    <div>
+    <div data-test={"container"}>
       <Header history={props.history} />
       <Text>{username ? "Welcome " + username : "HomePage"}</Text>
     </div>

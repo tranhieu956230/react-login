@@ -16,7 +16,7 @@ const ActivateAccount = props => {
   }, []);
 
   return (
-    <Text>
+    <Text data-test={"container"}>
       {isActivated
         ? "Your account is activated. Please log in"
         : "Your account is being activated"}

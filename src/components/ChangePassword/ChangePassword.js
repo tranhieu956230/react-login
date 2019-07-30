@@ -83,10 +83,10 @@ const ChangePassword = props => {
   };
 
   return (
-    <div>
-      <Header history={props.history} />
-      <Text>Change Password</Text>
-      <Main>
+    <div data-test={"container"}>
+      <Header history={props.history} data-test={"header"}/>
+      <Text data-test={"text"}>Change Password</Text>
+      <Main data-test={"main"}>
         <FormWrapper onSubmit={handleSubmit}>
           <InputValidate
             placeholder={"Old Password"}
