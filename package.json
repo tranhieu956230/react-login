@@ -22,7 +22,7 @@
     "styled-components": "^4.3.2"
   },
   "scripts": {
-    "start": "cp config/.env.prod .env && react-scripts start",
+    "start": "cp config/.env.dev .env && react-scripts start",
     "build": "cp config/.env.prod .env && react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
