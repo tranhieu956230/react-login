@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import styled from "styled-components";
 import { setGlobal, useGlobal } from "reactn";
 
 import Header from "components/shared/Header";
@@ -7,6 +6,7 @@ import { changePassword } from "services";
 import InputValidate from "components/shared/InputValidate";
 import validateUtil from "utils/validate.js";
 import PrimaryButton from "components/shared/PrimaryButton";
+import "./ChangePassword.css";
 
 const ChangePassword = props => {
   const [newPassword, setNewPassword] = useState("");
@@ -14,9 +14,7 @@ const ChangePassword = props => {
   const [oldPassword, setOldPassword] = useState("");
   const [isValidOldPassword, setIsValidOldPassword] = useState(true);
   const [isValidNewPassword, setIsValidNewPassword] = useState(true);
-  const [isValidNewPasswordConfirm, setIsValidNewPasswordConfirm] = useState(
-    true
-  );
+  const [isValidNewPasswordConfirm, setIsValidNewPasswordConfirm] = useState(true);
   const [isChangePasswordRequest, setIsChangePasswordRequest] = useState(false);
   const [accessToken] = useGlobal("accessToken");
 
@@ -44,12 +42,7 @@ const ChangePassword = props => {
         setIsChangePasswordRequest(true);
       }, 200);
 
-      changePassword(
-        oldPassword,
-        newPassword,
-        newPasswordConfirm,
-        accessToken
-      ).then(response => {
+      changePassword(oldPassword, newPassword, newPasswordConfirm, accessToken).then(response => {
         clearTimeout(t);
         setIsChangePasswordRequest(false);
         if (response.code === "SUCCESS" || response.code === "UNAUTHORIZED") {
@@ -83,11 +76,11 @@ const ChangePassword = props => {
   };
 
   return (
-    <div data-test={"container"}>
-      <Header history={props.history} data-test={"header"}/>
-      <Text data-test={"text"}>Change Password</Text>
-      <Main data-test={"main"}>
-        <FormWrapper onSubmit={handleSubmit}>
+    <div>
+      <Header history={props.history} />
+      <h1 className="change-password__title">Change Password</h1>
+      <div className="change-password__container">
+        <form className="change-password__form" onSubmit={handleSubmit}>
           <InputValidate
             placeholder={"Old Password"}
             type={"password"}
@@ -117,34 +110,10 @@ const ChangePassword = props => {
             valid={isValidNewPasswordConfirm}
           />
           <PrimaryButton isLoading={isChangePasswordRequest} text={"Submit"} />
-        </FormWrapper>
-      </Main>
+        </form>
+      </div>
     </div>
   );
 };
-
-const Text = styled.h1`
-  font-size: 3rem;
-  font-weight: 500;
-  text-align: center;
-  margin-top: 2rem;
-  color: rgba(41, 41, 41, 0.82);
-  margin-bottom: 2rem;
-`;
-
-const FormWrapper = styled.form`
-  max-width: 55rem;
-  display: grid;
-  justify-items: center;
-  width: 60rem;
-`;
-
-const Main = styled.div`
-  flex: 1;
-  background-color: white;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-`;
 
 export default ChangePassword;

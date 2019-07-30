@@ -1,12 +1,12 @@
 import React, { useEffect } from "react";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
 import { ToastContainer, Bounce } from "react-toastify";
-import { createGlobalStyle } from "styled-components";
 import { setGlobal } from "reactn";
 import "react-toastify/dist/ReactToastify.css";
 
 import routes from "routes";
 import route from "components/Routes";
+import "./App.css";
 
 const { PublicRoute, PrivateRoute } = route;
 
@@ -26,11 +26,9 @@ const App = props => {
     }
   });
 
-
   return (
     <React.Fragment>
       <BrowserRouter>
-        <GlobalStyle />
         <Switch>
           {routes.map((route, index) => (
             <Route
@@ -64,41 +62,5 @@ const App = props => {
     </React.Fragment>
   );
 };
-
-const GlobalStyle = createGlobalStyle`
-  *,
-  *::after,
-  *::before {
-    margin: 0;
-    padding: 0;
-    box-sizing: inherit;
-  }
-  
-  @font-face {
-    font-family: "primary";
-    src: url(/src/assets/fonts/GothaProReg.woff) format('woff');
-  }
-  
-  @font-face {
-    font-family: "primary-medium";
-    src: url(/src/assets/fonts/GothaProMed.woff) format('woff');
-  }
-  
-  @font-face {
-    font-family: "primary-light";
-    src: url(/src/assets/fonts/GothaProLig.woff) format('woff');
-  }
-  
-  @font-face {
-    font-family: "primary-bold";
-    src: url(/src/assets/fonts/GothaProBol.woff) format('woff');
-  }
-  
-  html {
-    font-size: 62.5%;
-    box-sizing: border-box;
-    font-family: primary, sans-serif;
-  }
-`;
 
 export default App;

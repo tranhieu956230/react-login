@@ -1,0 +1,77 @@
+.header__drop-down {
+  position: absolute;
+  top: 7%;
+  background-color: white;
+  list-style-type: none;
+  border-radius: 0.2rem;
+  box-shadow: 0.5rem 1rem 3rem 0 rgba(158, 158, 158, 0.35);
+  color: rgba(59, 59, 59, 0.2);
+  font-size: 1.4rem;
+  font-weight: 600;
+  width: max-content;
+  display: none;
+}
+
+.header__drop-down--visible {
+  display: initial;
+}
+
+.header__drop-down-item {
+  padding: 1.5rem 2rem;
+  color: rgba(0, 0, 0, 0.9);
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.header__drop-down-item:hover {
+  background-color: rgba(216, 224, 222, 0.55);
+  color: #3cc6a5;
+}
+
+.header__drop-down-item:not(:last-child) {
+  border-bottom: 1px solid rgba(205, 205, 205, 0.23);
+}
+
+.header__container {
+  background-image: linear-gradient(253deg, #3ba5b4 0, #38ba8a 100%);
+  color: white;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  padding: 2rem;
+}
+
+.header__button {
+  position: relative;
+  border-radius: 3rem;
+  color: #1a1e1d;
+  font-size: 1.5rem;
+  box-shadow: 0 1.2rem 2.4rem rgba(34, 51, 49, 0.13);
+  background: white;
+  border: none;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.3s;
+  padding: 2rem;
+  line-height: 0;
+}
+
+.header__button:hover {
+  color: #3bb497;
+  box-shadow: none;
+}
+
+.header__button:focus {
+  outline: none;
+}
+
+.header__link,
+.header__link:link,
+.header__link:focus {
+  text-decoration: none;
+  color: currentColor;
+}
+
+.header__link:hover {
+  color: rgb(59, 165, 180);
+}

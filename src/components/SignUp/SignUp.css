@@ -1,0 +1,18 @@
+.sign-up__form {
+  max-width: 55rem;
+  display: grid;
+  justify-items: center;
+}
+
+.sign-up__container {
+  display: flex;
+  height: 100vh;
+}
+
+.sign-up__main {
+  flex: 1;
+  background-color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

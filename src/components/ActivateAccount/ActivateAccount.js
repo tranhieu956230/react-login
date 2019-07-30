@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
-import styled from "styled-components";
-
 import { activateAccount } from "services";
+import "./ActivateAccount.css";
 
 const ActivateAccount = props => {
   const [isActivated, setIsActivated] = useState(false);
@@ -16,20 +15,12 @@ const ActivateAccount = props => {
   }, []);
 
   return (
-    <Text data-test={"container"}>
+    <h1 className="activate-account__title">
       {isActivated
         ? "Your account is activated. Please log in"
-        : "Your account is being activated"}
-    </Text>
+        : "We are activating your account"}
+    </h1>
   );
 };
-
-const Text = styled.h1`
-  font-size: 5rem;
-  font-weight: 500;
-  text-align: center;
-  margin-top: 2rem;
-  color: rgba(41, 41, 41, 0.82);
-`;
 
 export default ActivateAccount;

@@ -1,7 +1,7 @@
 import React from "react";
 import { shallow } from "enzyme";
 import ActivateAccount from "./index";
-
+import { Text } from "./style";
 import { findByTestAttr } from "utils/test.js";
 
 const setUp = (props = {}) => {
@@ -14,8 +14,8 @@ describe("Login Component", () => {
     component = setUp();
   });
 
-  it("It should render without errors", () => {
-    const wrapper = findByTestAttr(component, "container");
-    expect(wrapper.length).toBe(1);
+  it("Should render without errors", () => {
+    const wrapper = shallow(<Text />);
+    expect(wrapper.contains(<Text />)).toBeDefined();
   });
 });

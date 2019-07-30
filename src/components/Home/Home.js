@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
-import styled from "styled-components";
 import { useGlobal, setGlobal } from "reactn";
 
 import Header from "components/shared/Header";
 import { getUserInfo } from "services";
+import "./Home.css";
 
 const Home = props => {
   const [accessToken] = useGlobal("accessToken");
@@ -27,17 +27,11 @@ const Home = props => {
   return (
     <div data-test={"container"}>
       <Header history={props.history} />
-      <Text>{username ? "Welcome " + username : "HomePage"}</Text>
+      <h1 className="home__title">
+        {username ? "Welcome " + username : "HomePage"}
+      </h1>
     </div>
   );
 };
-
-const Text = styled.h1`
-  font-size: 5rem;
-  font-weight: 500;
-  text-align: center;
-  margin-top: 2rem;
-  color: rgba(41, 41, 41, 0.82);
-`;
 
 export default Home;

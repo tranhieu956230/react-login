@@ -1,0 +1,44 @@
+.login__secondary-text {
+  font-size: 1.5rem;
+  color: #38ba8a;
+  justify-self: start;
+  margin-left: 1rem;
+  margin-top: -0.5rem;
+  margin-bottom: 0.5rem;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.login__secondary-text:hover {
+  color: #3ba5b4;
+}
+
+.login__form {
+  max-width: 55rem;
+  display: grid;
+  justify-items: center;
+}
+
+.login__container {
+  display: flex;
+  height: 100vh;
+}
+
+.login__main {
+  flex: 1;
+  background-color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.login__link,
+.login__link:link,
+.login__link:focus {
+  text-decoration: none;
+  color: currentColor;
+}
+
+.login__link:hover {
+  color: rgb(59, 165, 180);
+}

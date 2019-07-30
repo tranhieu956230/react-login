@@ -1,5 +1,5 @@
 import React from "react";
-import { shallow } from "enzyme";
+import { shallow, render, mount } from "enzyme";
 import ChangePassword from "./index";
 
 import { findByTestAttr } from "utils/test.js";
@@ -15,12 +15,17 @@ describe("Login Component", () => {
   });
 
   it("It should render without errors", () => {
-    const wrapper = findByTestAttr(component, "container");
-    expect(wrapper.length).toBe(1);
+    const wrapper = shallow(<ChangePassword />);
+    expect(wrapper).toBeDefined();
   });
 
   it("Should render header component", () => {
     const wrapper = findByTestAttr(component, "header");
     expect(wrapper.length).toBe(1);
+  });
+
+  it("Should render text component", () => {
+    const wrapper = mount(<FormWrapper />);
+    console.log(wrapper.debug());
   });
 });
