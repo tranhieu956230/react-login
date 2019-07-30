@@ -68,6 +68,7 @@ const ChangePassword = props => {
     setNewPassword(newPassword);
     setIsValidNewPassword(validateUtil.isValidPassword(newPassword));
     setIsValidNewPasswordConfirm(newPassword === newPasswordConfirm);
+    setIsValidOldPassword(oldPassword !== newPassword);
   };
 
   const handleNewPasswordConfirmChange = e => {
