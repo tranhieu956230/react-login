@@ -3,6 +3,7 @@ import { Route, Switch } from "react-router-dom";
 import { ToastContainer, Bounce } from "react-toastify";
 import { setGlobal } from "reactn";
 import "react-toastify/dist/ReactToastify.css";
+import LoadingScreen from "react-loading-screen";
 
 import routes from "routes";
 import route from "components/Routes";
@@ -28,7 +29,16 @@ const App = props => {
 
   return (
     <React.Fragment>
-      <Suspense fallback={<h1>Loading...</h1>}>
+      <Suspense
+        fallback={
+          <LoadingScreen
+            loading={true}
+            bgColor="#f1f1f1"
+            spinnerColor="#9ee5f8"
+            textColor="#676767"
+          />
+        }
+      >
         <Switch>
           {routes.map((route, index) => (
             <Route
