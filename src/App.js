@@ -57,7 +57,7 @@ const App = props => {
         </Switch>
       </Suspense>
       <ToastContainer
-        autoClose={2000}
+        autoClose={3500}
         draggable={true}
         pauseOnFocusLoss={false}
         transition={Bounce}
