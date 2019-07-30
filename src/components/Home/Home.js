@@ -22,14 +22,12 @@ const Home = props => {
         props.history.push("/");
       }
     });
-  });
+  }, []);
 
   return (
     <div data-test={"container"}>
       <Header history={props.history} />
-      <h1 className="home__title">
-        {username ? "Welcome " + username : "HomePage"}
-      </h1>
+      <h1 className="home__title">{username ? "Welcome " + username : "HomePage"}</h1>
     </div>
   );
 };

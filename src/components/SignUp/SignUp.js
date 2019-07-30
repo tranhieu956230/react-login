@@ -48,7 +48,7 @@ const SignUp = props => {
         setIsRegisterRequest(true);
       }, 200);
 
-      signUp(email, password, confirmPassword, username).then(response => {
+      signUp(email, password, username).then(response => {
         clearTimeout(t);
         setIsRegisterRequest(false);
         if (response.code === "SUCCESS") {

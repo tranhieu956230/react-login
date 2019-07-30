@@ -1,5 +1,5 @@
-import React, { useEffect } from "react";
-import { BrowserRouter, Route, Switch } from "react-router-dom";
+import React, { useEffect, Suspense } from "react";
+import { Route, Switch } from "react-router-dom";
 import { ToastContainer, Bounce } from "react-toastify";
 import { setGlobal } from "reactn";
 import "react-toastify/dist/ReactToastify.css";
@@ -24,11 +24,11 @@ const App = props => {
         accessToken
       });
     }
-  });
+  }, []);
 
   return (
     <React.Fragment>
-      <BrowserRouter>
+      <Suspense fallback={<h1>Loading...</h1>}>
         <Switch>
           {routes.map((route, index) => (
             <Route
@@ -45,7 +45,7 @@ const App = props => {
             />
           ))}
         </Switch>
-      </BrowserRouter>
+      </Suspense>
       <ToastContainer
         autoClose={2000}
         draggable={true}

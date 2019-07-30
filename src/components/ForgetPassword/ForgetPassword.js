@@ -44,10 +44,7 @@ const ForgetPassword = props => {
     <div className="forget-password__container">
       <div className="forget-password__main">
         <form className="forget-password__form" onSubmit={handleSubmit}>
-          <FormHeader
-            title={"Reset your password"}
-            description={"Login using social networks"}
-          />
+          <FormHeader title={"Reset your password"} description={"Login using social networks"} />
           <InputValidate
             placeholder={"Username or email"}
             type={"text"}

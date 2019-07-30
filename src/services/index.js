@@ -20,7 +20,7 @@ export const login = async (account, password) => {
     .catch(err => handleError(err.message));
 };
 
-export const signUp = async (email, password, confirmPassword, username) => {
+export const signUp = async (email, password, username) => {
   return request({
     method: "POST",
     url: "/user",
@@ -28,7 +28,6 @@ export const signUp = async (email, password, confirmPassword, username) => {
       email,
       password,
       username,
-      confirmPassword
     }
   })
     .then(response => handleResponse(response.data))
@@ -50,7 +49,6 @@ export const resetPassword = async account => {
 export const changePassword = async (
   old_password,
   new_password,
-  password_confirm,
   access_token
 ) => {
   return request({
@@ -62,7 +60,6 @@ export const changePassword = async (
     data: {
       old_password,
       new_password,
-      password_confirm
     }
   })
     .then(response => handleResponse(response.data))

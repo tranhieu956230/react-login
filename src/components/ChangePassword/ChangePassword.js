@@ -42,7 +42,7 @@ const ChangePassword = props => {
         setIsChangePasswordRequest(true);
       }, 200);
 
-      changePassword(oldPassword, newPassword, newPasswordConfirm, accessToken).then(response => {
+      changePassword(oldPassword, newPassword, accessToken).then(response => {
         clearTimeout(t);
         setIsChangePasswordRequest(false);
         if (response.code === "SUCCESS" || response.code === "UNAUTHORIZED") {
@@ -60,7 +60,7 @@ const ChangePassword = props => {
   const handleOldPasswordChange = e => {
     let oldPassword = e.target.value;
     setOldPassword(oldPassword);
-    setIsValidOldPassword(validateUtil.isValidPassword(oldPassword));
+    setIsValidOldPassword(oldPassword !== newPassword);
   };
 
   const handleNewPasswordChange = e => {
@@ -87,7 +87,7 @@ const ChangePassword = props => {
             onChange={handleOldPasswordChange}
             value={oldPassword}
             errorMessage={
-              "Password must has 1 lowercase, 1 uppercase letter, 1 number and at least 8 characters in length"
+              "Your new password must be different from the old password."
             }
             valid={isValidOldPassword}
           />

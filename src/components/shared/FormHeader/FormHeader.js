@@ -17,9 +17,9 @@ const FormHeader = props => {
         <div className="form-header__icon" style={{ backgroundImage: `url(${linkedinImg})` }} />
       </div>
       <div className="form-header__line-wrapper">
-        <img className="form-header__line" src={lineImg} />
+        <img className="form-header__line" src={lineImg} alt="line" />
         <span className="form-header__small-text">or</span>
-        <img className="form-header__line" src={lineImg} />
+        <img className="form-header__line" src={lineImg} alt="line" />
       </div>
     </div>
   );

@@ -1,10 +1,11 @@
 import React from "react";
-import Login from "components/Login";
-import SignUp from "components/SignUp";
-import ForgetPassword from "components/ForgetPassword";
-import Home from "components/Home";
-import ChangePassword from "components/ChangePassword";
-import ActivateAccount from "components/ActivateAccount";
+
+const Login = React.lazy(() => import("components/Login"));
+const SignUp = React.lazy(() => import("components/SignUp"));
+const ForgetPassword = React.lazy(() => import("components/ForgetPassword"));
+const Home = React.lazy(() => import("components/Home"));
+const ChangePassword = React.lazy(() => import("components/ChangePassword"));
+const ActivateAccount = React.lazy(() => import("components/ActivateAccount"));
 
 let routes = [
   {

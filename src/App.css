@@ -1,0 +1,33 @@
+*,
+*::after,
+*::before {
+  margin: 0;
+  padding: 0;
+  box-sizing: inherit;
+}
+
+@font-face {
+  font-family: "primary";
+  src: url(assets/fonts/GothaProReg.woff) format("woff");
+}
+
+@font-face {
+  font-family: "primary-medium";
+  src: url(assets/fonts/GothaProMed.woff) format("woff");
+}
+
+@font-face {
+  font-family: "primary-light";
+  src: url(assets/fonts/GothaProLig.woff) format("woff");
+}
+
+@font-face {
+  font-family: "primary-bold";
+  src: url(assets/fonts/GothaProBol.woff) format("woff");
+}
+
+html {
+  font-size: 62.5%;
+  box-sizing: border-box;
+  font-family: primary, sans-serif;
+}

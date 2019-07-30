@@ -16,9 +16,7 @@ const ActivateAccount = props => {
 
   return (
     <h1 className="activate-account__title">
-      {isActivated
-        ? "Your account is activated. Please log in"
-        : "We are activating your account"}
+      {isActivated ? "Your account is activated. Please log in" : "We are activating your account"}
     </h1>
   );
 };
