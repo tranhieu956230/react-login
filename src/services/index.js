@@ -75,12 +75,11 @@ export const getUserInfo = async access_token => {
 };
 
 export const activateAccount = async code => {
-  return request({
-    method: "GET",
-    url: `/auth/verify-email/${code}`
-  })
-    .then(response => handleResponse(response.data))
-    .catch(err => handleError(err.message));
+  return new Promise(resolve => {
+    resolve({
+      code: "SUCCESS"
+    });
+  });
 };
 
 function handleResponse(response) {
