@@ -27,7 +27,7 @@ export const signUp = async (email, password, username) => {
     data: {
       email,
       password,
-      username,
+      username
     }
   })
     .then(response => handleResponse(response.data))
@@ -46,11 +46,7 @@ export const resetPassword = async account => {
     .catch(err => handleError(err.message));
 };
 
-export const changePassword = async (
-  old_password,
-  new_password,
-  access_token
-) => {
+export const changePassword = async (old_password, new_password, access_token) => {
   return request({
     method: "PUT",
     url: "/user/password",
@@ -59,7 +55,7 @@ export const changePassword = async (
     },
     data: {
       old_password,
-      new_password,
+      new_password
     }
   })
     .then(response => handleResponse(response.data))

@@ -2,20 +2,9 @@ import React from "react";
 import { shallow } from "enzyme";
 import SignUp from "./index";
 
-import { findByTestAttr } from "utils/test.js";
-
-const setUp = (props = {}) => {
-  return shallow(<SignUp {...props} />);
-};
-
-describe("Login Component", () => {
-  let component;
-  beforeEach(() => {
-    component = setUp();
-  });
-
+describe("Test SignUp Component", () => {
   it("It should render without errors", () => {
-    const wrapper = findByTestAttr(component, "container");
-    expect(wrapper.length).toBe(1);
+    const wrapper = shallow(<SignUp />);
+    expect(wrapper).toBeDefined();
   });
 });
