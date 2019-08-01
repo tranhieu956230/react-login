@@ -4,10 +4,11 @@ import renderer from "react-test-renderer";
 import { BrowserRouter, Route } from "react-router-dom";
 
 import ActivateAccount from "./index";
+import { activateAccount } from "services";
 
-jest.mock("../../services/index.js");
+jest.mock("../../services");
 
-describe("Test Activate Account Component", () => {
+describe("Test ActivateAccount Shallow", () => {
   it("Should render with no error", () => {
     const wrapper = shallow(<ActivateAccount />);
     const text = wrapper.find("h1").text();
@@ -17,6 +18,12 @@ describe("Test Activate Account Component", () => {
   it("Should match the snapshot", () => {
     const tree = renderer.create(<ActivateAccount />).toJSON();
     expect(tree).toMatchSnapshot();
+  });
+});
+
+describe("Test ActivateAccount Mount", () => {
+  afterEach(() => {
+    activateAccount.mockReset();
   });
 
   it("Should render activated", async done => {
@@ -28,6 +35,12 @@ describe("Test Activate Account Component", () => {
       }
     };
 
+    activateAccount.mockImplementationOnce(code => {
+      return new Promise(resolve => {
+        resolve({ code: "SUCCESS" });
+      });
+    });
+
     const wrapper = mount(
       <BrowserRouter>
         <Route render={props => <ActivateAccount {...props} {...code} />} />
@@ -36,6 +49,36 @@ describe("Test Activate Account Component", () => {
     setTimeout(() => {
       const text = wrapper.find("h1").text();
       expect(text).toEqual("Your account is activated. Please log in");
+      expect(activateAccount).toHaveBeenCalledTimes(1);
+      done();
+    });
+  });
+
+  it("Should render activating.", async done => {
+    const code = {
+      match: {
+        params: {
+          code: 1000
+        }
+      }
+    };
+
+    activateAccount.mockImplementationOnce(code => {
+      return new Promise(resolve => {
+        resolve({ code: "UNAUTHORIZED" });
+      });
+    });
+
+    const wrapper = mount(
+      <BrowserRouter>
+        <Route render={props => <ActivateAccount {...props} {...code} />} />
+      </BrowserRouter>
+    );
+
+    setTimeout(() => {
+      const text = wrapper.find("h1").text();
+      expect(text).toEqual("We are activating your account");
+      expect(activateAccount).toHaveBeenCalledTimes(1);
       done();
     });
   });

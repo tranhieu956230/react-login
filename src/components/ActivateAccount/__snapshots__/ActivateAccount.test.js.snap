@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Test Activate Account Component Should match the snapshot 1`] = `
+exports[`Test ActivateAccount Shallow Should match the snapshot 1`] = `
 <h1
   className="activate-account__title"
 >
