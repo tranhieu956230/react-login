@@ -2,11 +2,14 @@ import React from "react";
 import { shallow, mount } from "enzyme";
 import renderer from "react-test-renderer";
 import { BrowserRouter, Route } from "react-router-dom";
+import { act } from "react-dom/test-utils";
 
 import ActivateAccount from "./index";
 import { activateAccount } from "services";
 
-jest.mock("../../services");
+jest.mock("services", () => ({
+  activateAccount: jest.fn()
+}));
 
 describe("Test ActivateAccount Shallow", () => {
   it("Should render with no error", () => {
@@ -41,11 +44,14 @@ describe("Test ActivateAccount Mount", () => {
       });
     });
 
-    const wrapper = mount(
-      <BrowserRouter>
-        <Route render={props => <ActivateAccount {...props} {...code} />} />
-      </BrowserRouter>
-    );
+    let wrapper;
+    act(() => {
+      wrapper = mount(
+        <BrowserRouter>
+          <Route render={props => <ActivateAccount {...props} {...code} />} />
+        </BrowserRouter>
+      );
+    });
     setTimeout(() => {
       const text = wrapper.find("h1").text();
       expect(text).toEqual("Your account is activated. Please log in");
@@ -69,11 +75,14 @@ describe("Test ActivateAccount Mount", () => {
       });
     });
 
-    const wrapper = mount(
-      <BrowserRouter>
-        <Route render={props => <ActivateAccount {...props} {...code} />} />
-      </BrowserRouter>
-    );
+    let wrapper;
+    act(() => {
+      wrapper = mount(
+        <BrowserRouter>
+          <Route render={props => <ActivateAccount {...props} {...code} />} />
+        </BrowserRouter>
+      );
+    });
 
     setTimeout(() => {
       const text = wrapper.find("h1").text();

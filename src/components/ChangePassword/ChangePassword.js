@@ -87,10 +87,9 @@ const ChangePassword = props => {
             type={"password"}
             onChange={handleOldPasswordChange}
             value={oldPassword}
-            errorMessage={
-              "Your new password must be different from the old password."
-            }
+            errorMessage={"Your new password must be different from the old password."}
             valid={isValidOldPassword}
+            id="old-password"
           />
           <InputValidate
             placeholder={"New Password"}
@@ -101,6 +100,7 @@ const ChangePassword = props => {
               "Password must has 1 lowercase, 1 uppercase letter, 1 number and at least 8 characters in length"
             }
             valid={isValidNewPassword}
+            id="new-password"
           />
           <InputValidate
             placeholder={"Confirm new password"}
@@ -109,6 +109,7 @@ const ChangePassword = props => {
             value={newPasswordConfirm}
             errorMessage={"Password not match"}
             valid={isValidNewPasswordConfirm}
+            id="password-confirm"
           />
           <PrimaryButton isLoading={isChangePasswordRequest} text={"Submit"} />
         </form>

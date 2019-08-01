@@ -4,13 +4,11 @@ import "./InputValidate.css";
 const InputValidate = props => {
   return (
     <div className="input__container">
-      <h4
-        className={`input__text ${props.valid ? "input__text--invisible" : ""}`}
-      >
+      <h4 className={`input__text ${props.valid ? "input__text--invisible" : ""}`}>
         {props.errorMessage}
       </h4>
       <input
-        className={`input__field ${props.valid ? "input__field--visible" : ""}`}
+        className={`input__field ${props.valid ? "input__field--margin-top" : ""}`}
         placeholder={props.placeholder}
         type={props.type}
         onChange={props.onChange}
