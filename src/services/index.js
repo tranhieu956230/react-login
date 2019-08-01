@@ -46,7 +46,11 @@ export const resetPassword = async account => {
     .catch(err => handleError(err.message));
 };
 
-export const changePassword = async (old_password, new_password, access_token) => {
+export const changePassword = async (
+  old_password,
+  new_password,
+  access_token
+) => {
   return request({
     method: "PUT",
     url: "/user/password",
@@ -74,12 +78,13 @@ export const getUserInfo = async access_token => {
     .catch(err => handleError(err.message));
 };
 
-export const activateAccount = async code => {
-  return new Promise(resolve => {
-    resolve({
-      code: "SUCCESS"
-    });
-  });
+export const activateAccount = code => {
+  return request({
+    method: "GET",
+    url: `/auth/verify-email/${code}`
+  })
+    .then(response => handleResponse(response.data))
+    .catch(err => handleError(err.message));
 };
 
 function handleResponse(response) {

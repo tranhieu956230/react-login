@@ -5,6 +5,8 @@ import { BrowserRouter, Route } from "react-router-dom";
 
 import ActivateAccount from "./index";
 
+jest.mock("../../services/index.js");
+
 describe("Test Activate Account Component", () => {
   it("Should render with no error", () => {
     const wrapper = shallow(<ActivateAccount />);
@@ -25,6 +27,7 @@ describe("Test Activate Account Component", () => {
         }
       }
     };
+
     const wrapper = mount(
       <BrowserRouter>
         <Route render={props => <ActivateAccount {...props} {...code} />} />
