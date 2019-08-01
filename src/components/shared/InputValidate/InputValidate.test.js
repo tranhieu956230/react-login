@@ -10,5 +10,6 @@ describe("Test ValidateInput mount", () => {
     const input = wrapper.find("input").at(0);
     input.simulate("change", { target: { value: "new value" } });
     expect(mockOnChange).toHaveBeenCalledTimes(1);
+    wrapper.unmount();
   });
 });
